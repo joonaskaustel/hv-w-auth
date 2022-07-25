@@ -20,7 +20,8 @@ export const authOptions: NextAuthOptions = {
         .select('*')
         .filter('email', 'eq', session.user?.email);
 
-      session.dbUserId = retrievedUser[0].id;
+      // @ts-ignore
+      session.dbUserId = retrievedUser[0]['id'];
       session.providerAccountId = token.sub;
       return Promise.resolve(session);
     },
