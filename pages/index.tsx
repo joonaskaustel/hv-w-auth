@@ -66,8 +66,6 @@ export default function IndexPage() {
     const productUrl = event.target.productUrl.value;
 
     const productData = await getProductData(`${process.env.NEXT_PUBLIC_APP_API_URL}/api/product/dataFromLink`, productUrl);
-    console.log('productData ', productData);
-    console.log('session ', session);
     const userId = session?.dbUserId as number;
     addProductData(productData, userId);
     mutate('/api/product/all');
