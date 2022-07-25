@@ -10,8 +10,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  const query = req.query;
+  const { userId } = query;
   const { data, error } = await supabase
     .from('product')
-    .select();
+    .select()
+    .filter('userId', 'eq', userId);
   res.status(200).json(data as any);
 }

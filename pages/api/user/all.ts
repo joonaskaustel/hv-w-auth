@@ -10,17 +10,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { productUrl, price, name, userId } = req.body;
-
-  console.log('userid ', userId )
-
   const { data, error } = await supabase
     .from('product')
-    .insert({ url: productUrl, price, name, userId });
-
-  if (error) {
-    return res.status(400).json(error as any);
-  }
-
-  return res.status(200).json(data as any);
+    .select();
+  res.status(200).json(data as any);
 }
