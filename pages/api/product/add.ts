@@ -12,8 +12,6 @@ export default async function handler(
 ) {
   const { productUrl, price, name, userId } = req.body;
 
-  console.log('userid ', userId )
-
   const { data, error } = await supabase
     .from('product')
     .insert({ url: productUrl, price, name, userId });

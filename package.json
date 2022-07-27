@@ -18,6 +18,10 @@
     "Lluis Agusti <hi@llu.lu>"
   ],
   "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@mantine/core": "^5.0.0",
+    "@mantine/form": "^5.0.0",
+    "@mantine/hooks": "^5.0.0",
     "@sendgrid/mail": "^7.7.0",
     "@supabase/supabase-js": "^1.35.4",
     "axios": "^0.27.2",

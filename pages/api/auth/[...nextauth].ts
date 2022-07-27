@@ -14,7 +14,6 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async session({ session, user, token  }) {
-      console.log('session ', session)
       const { data: retrievedUser, error: getUserError } = await supabase
         .from('user')
         .select('*')

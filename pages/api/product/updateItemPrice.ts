@@ -17,7 +17,6 @@ const sendEmail = (link: string, email: string, currentPrice: number) => {
     text: `Toode ${link} on nüüd odavam ja maksab ${currentPrice}€`,
     html: `<strong>Toode ${link} on nüüd odavam ja maksab  ${currentPrice}€</strong>`,
   };
-  console.log({ msg });
   sendgrid.send(msg).then(() => {
     console.log('Email sent');
   })
