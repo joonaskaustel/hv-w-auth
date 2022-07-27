@@ -8,6 +8,6 @@ jobs:
     steps:
       - name: Call our API update-prices api route
         run: |
-          curl --request POST \
+          curl --request GET \
           --url 'https://hinnateavitus.vercel.app/api/products/updateItemPrice' \
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
