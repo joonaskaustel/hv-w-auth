@@ -42,7 +42,5 @@ export default async function handler(
             productId: productExists[0].id,
         });
 
-    console.log('erraw ', erraw);
-
     return res.status(200).json(userProducts as any);
 }
