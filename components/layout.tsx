@@ -1,73 +1,74 @@
-import {HeaderMenuColored} from "./header"
-import HeaderOld from "./headerold"
-import Footer from "./footer"
-import React from "react";
+import { HeaderMenuColored } from './header';
+import HeaderOld from './headerold';
+import Footer from './footer';
+import React from 'react';
 
 interface Props {
-  children: React.ReactNode
+    children: React.ReactNode;
 }
 
-export default function Layout({children}: Props) {
-  const links = [
-    {
-      link: "/about",
-      label: "Features"
-    },
-    {
-      link: "#1",
-      label: "Learn",
-      links: [
+export default function Layout({ children }: Props) {
+    const links = [
         {
-          link: "/docs",
-          label: "Documentation"
+            link: '/about',
+            label: 'Features',
         },
         {
-          link: "/resources",
-          label: "Resources"
+            link: '#1',
+            label: 'Learn',
+            links: [
+                {
+                    link: '/docs',
+                    label: 'Documentation',
+                },
+                {
+                    link: '/resources',
+                    label: 'Resources',
+                },
+                {
+                    link: '/community',
+                    label: 'Community',
+                },
+                {
+                    link: '/blog',
+                    label: 'Blog',
+                },
+            ],
         },
         {
-          link: "/community",
-          label: "Community"
+            link: '/about',
+            label: 'About',
         },
         {
-          link: "/blog",
-          label: "Blog"
-        }
-      ]
-    },
-    {
-      link: "/about",
-      label: "About"
-    },
-    {
-      link: "/pricing",
-      label: "Pricing"
-    },
-    {
-      link: "#2",
-      label: "Support",
-      links: [
-        {
-          link: "/faq",
-          label: "FAQ"
+            link: '/pricing',
+            label: 'Pricing',
         },
         {
-          link: "/demo",
-          label: "Book a demo"
+            link: '#2',
+            label: 'Support',
+            links: [
+                {
+                    link: '/faq',
+                    label: 'FAQ',
+                },
+                {
+                    link: '/demo',
+                    label: 'Book a demo',
+                },
+                {
+                    link: '/forums',
+                    label: 'Forums',
+                },
+            ],
         },
-        {
-          link: "/forums",
-          label: "Forums"
-        }
-      ]
-    }
-  ]
-  return (
-    <>
-      <HeaderOld/>
-      <HeaderMenuColored links={links}/>
-      <main>{children}</main>
-      <Footer/>
-    </>
-  )
+    ];
+    // @ts-ignore
+    return (
+        <>
+            <HeaderOld />
+            <HeaderMenuColored links={{ links }} />
+            <main>{children}</main>
+            <Footer />
+        </>
+    );
 }
