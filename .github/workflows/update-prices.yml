@@ -9,5 +9,5 @@ jobs:
       - name: Call our API update-prices api route
         run: |
           curl --request GET \
-          --url 'https://hv-w-auth.vercel.app/api/product/updateItemPrice' \
+          --url 'https://pricify.vercel.app/api/product/updateItemPrice' \
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
