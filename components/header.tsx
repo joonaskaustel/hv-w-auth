@@ -77,8 +77,6 @@ export function HeaderMenuColored(props: IProps) {
 
     const [userMenuOpened, setUserMenuOpened] = useState(false);
 
-    console.log('links ', links);
-
     const items = links.links.map((link: any) => {
         const menuItems = link.links?.map((item: any) => (
             <Menu.Item key={item.link}>{item.label}</Menu.Item>

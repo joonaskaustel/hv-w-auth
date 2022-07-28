@@ -11,8 +11,6 @@ export default async function handler(
 ) {
     const { productUrl, price, name, userId } = req.body;
 
-    console.log('reqbody ', req.body);
-
     // check if product already exists
     const { data: productExists, error: err } = await supabase
         .from('product')
