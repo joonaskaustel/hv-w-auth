@@ -7,14 +7,19 @@ type Data = {
     name: string;
 };
 
-const sendEmail = (link: string, email: string, currentPrice: number) => {
+const sendEmail = (
+    link: string,
+    email: string,
+    currentPrice: number,
+    lastPrice: number
+) => {
     sendgrid.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API_KEY as string);
     const msg = {
         to: email,
-        from: 'joonas.kaustel@gmail.com',
-        subject: 'Hinnateavitus',
-        text: `Toode ${link} on nüüd odavam ja maksab ${currentPrice}€`,
-        html: `<strong>Toode ${link} on nüüd odavam ja maksab  ${currentPrice}€</strong>`,
+        from: 'pricealert@pricify.com',
+        subject: 'Price alert',
+        text: `Product ${link} is now cheaper and costs ${currentPrice}€ instead of ${lastPrice}€`,
+        html: `<strong>Product ${link} is now cheaper and costs ${currentPrice}€ instead of ${lastPrice}€</strong>`,
     };
     sendgrid
         .send(msg)
@@ -54,14 +59,19 @@ export default async function handler(
                 sendEmail(
                     fetchedProduct.url,
                     user.user.email,
-                    fetchedProduct.lowestPrice
+                    fetchedProduct.lowestPrice,
+                    item.price
                 );
             });
 
             // update price
             const { data: updatedProduct, error } = await supabase
                 .from('product')
-                .update({ price: fetchedProduct.lowestPrice })
+                .update({
+                    price: fetchedProduct.lowestPrice,
+                    lastPrice: item.price,
+                    updatedAt: 'now()',
+                })
                 .match({ id: item.id });
         }
     }

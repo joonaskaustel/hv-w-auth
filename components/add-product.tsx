@@ -84,13 +84,13 @@ export const AddProduct = (props: TextInputProps) => {
                 >
                     <TextInput
                         required
-                        label="HV product url"
+                        label="🌐 Product url"
                         placeholder="https://www.hinnavaatlus.ee/2197459/apple-iphone-13-128gb-midnight/"
                         {...form.getInputProps('link')}
                     />
 
                     <Group position="right" mt="md">
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit">⏩ Submit</Button>
                     </Group>
                 </form>
             </Box>

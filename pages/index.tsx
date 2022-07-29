@@ -112,7 +112,7 @@ export default function IndexPage() {
                             className={classes.highlight}
                             inherit
                         >
-                            price notifications
+                            price notifications 🛎️
                         </Text>{' '}
                         for any page
                     </Title>

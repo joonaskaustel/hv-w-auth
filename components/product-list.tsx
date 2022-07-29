@@ -2,6 +2,11 @@ import { Loader, Table } from '@mantine/core';
 import { useSession } from 'next-auth/react';
 import { useProducts } from '../hooks/swr/useProducts';
 
+const getChange = (newNum: number, oldNum: number) => {
+    const change = newNum - oldNum;
+    return (change / oldNum) * 100;
+};
+
 const getRows = (products: any) => {
     return products?.map((product: any) => (
         <tr key={product.product.name}>
@@ -10,7 +15,17 @@ const getRows = (products: any) => {
                     {product.product.name.replaceAll('-', ' ')}
                 </a>
             </td>
-            <td>{product.product.price}</td>
+            <td>
+                {getChange(product.product.price, product.product.lastPrice)} %
+            </td>
+            <td>{product.product.lastPrice - product.product.price} €</td>
+            <td>{product.product.price} €</td>
+            <td>
+                {product.product.lastPrice
+                    ? `${product.product.lastPrice} €`
+                    : '-'}
+            </td>
+            <td>{new Date(product.product.updatedAt).toLocaleDateString()}</td>
         </tr>
     ));
 };
@@ -23,8 +38,12 @@ const content = (products: any, isLoading: any, isError: any) => {
         <Table>
             <thead>
                 <tr>
-                    <th>Product</th>
-                    <th>Price €</th>
+                    <th>📦 Product</th>
+                    <th>〽 Diff</th>
+                    <th>♻ You save</th>
+                    <th>💰 Current Price</th>
+                    <th>🕐 Last Price</th>
+                    <th>🕐 Updated at</th>
                 </tr>
             </thead>
             <tbody>{getRows(products)}</tbody>
