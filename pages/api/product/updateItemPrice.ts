@@ -17,7 +17,7 @@ const sendEmail = (
 ) => {
     const mailjet = Mailjet.apiConnect(
       process.env.NEXT_PUBLIC_EMAIL_CLIENT_API_KEY as string,
-      '123' as string,
+      process.env.NEXT_PUBLIC_EMAIL_CLIENT_SECRET_KEY as string,
     );
     const request = mailjet.post('send', { version: 'v3.1' })
       .request({
