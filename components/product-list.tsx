@@ -1,31 +1,29 @@
-import { Loader, Table } from '@mantine/core';
-import { useSession } from 'next-auth/react';
-import { useProducts } from '../hooks/swr/useProducts';
+import {Loader, ScrollArea, Table} from '@mantine/core';
+import {useSession} from 'next-auth/react';
+import {useProducts} from '../hooks/swr/useProducts';
 
 const getChange = (newNum: number, oldNum: number) => {
     const change = newNum - oldNum;
-    return (change / oldNum) * 100;
+    return Math.round((change / oldNum) * 100);
 };
 
 const getRows = (products: any) => {
-    return products?.map((product: any) => (
+  const  localeDateConfig: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+  return products?.map((product: any) => (
         <tr key={product.product.name}>
             <td>
-                <a target="_blank" href={product.product.url}>
+                <a target="_blank" href={product.product.url} rel="noreferrer">
                     {product.product.name.replaceAll('-', ' ')}
                 </a>
             </td>
-            <td>
-                {getChange(product.product.price, product.product.lastPrice)} %
-            </td>
-            <td>{product.product.lastPrice - product.product.price} €</td>
+            <td>{product.product.lastPrice - product.product.price} € / {getChange(product.product.price, product.product.lastPrice)} %</td>
             <td>{product.product.price} €</td>
             <td>
                 {product.product.lastPrice
                     ? `${product.product.lastPrice} €`
                     : '-'}
             </td>
-            <td>{new Date(product.product.updatedAt).toLocaleDateString()}</td>
+            <td>{new Date(product.product.updatedAt).toLocaleDateString('et', localeDateConfig)}</td>
         </tr>
     ));
 };
@@ -35,19 +33,20 @@ const content = (products: any, isLoading: any, isError: any) => {
     if (isError)
         return <div>error fetching products {JSON.stringify(isError)}</div>;
     return (
+      <ScrollArea>
         <Table>
             <thead>
                 <tr>
                     <th>📦 Product</th>
-                    <th>〽 Diff</th>
                     <th>♻ You save</th>
-                    <th>💰 Current Price</th>
-                    <th>🕐 Last Price</th>
+                    <th>💰 Current</th>
+                    <th>🕐 Last</th>
                     <th>🕐 Updated at</th>
                 </tr>
             </thead>
             <tbody>{getRows(products)}</tbody>
         </Table>
+      </ScrollArea>
     );
 };
 

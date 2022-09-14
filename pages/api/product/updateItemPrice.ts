@@ -1,11 +1,13 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { supabase } from '../../../utils/supabaseClient';
-import sendgrid from '@sendgrid/mail';
+import type {NextApiRequest, NextApiResponse} from 'next';
+import {supabase} from '../../../utils/supabaseClient';
 import axios from 'axios';
+import Mailjet from 'node-mailjet';
+import {withSentry} from '@sentry/nextjs';
 
 type Data = {
     name: string;
 };
+
 
 const sendEmail = (
     link: string,
@@ -13,25 +15,45 @@ const sendEmail = (
     currentPrice: number,
     lastPrice: number
 ) => {
-    sendgrid.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API_KEY as string);
-    const msg = {
-        to: email,
-        from: 'pricealert@pricify.com',
-        subject: 'Price alert',
-        text: `Product ${link} is now cheaper and costs ${currentPrice}€ instead of ${lastPrice}€`,
-        html: `<strong>Product ${link} is now cheaper and costs ${currentPrice}€ instead of ${lastPrice}€</strong>`,
-    };
-    sendgrid
-        .send(msg)
-        .then(() => {
-            console.log('Email sent');
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    const mailjet = Mailjet.apiConnect(
+      process.env.NEXT_PUBLIC_EMAIL_CLIENT_API_KEY as string,
+      '123' as string,
+    );
+    const request = mailjet.post('send', { version: 'v3.1' })
+      .request({
+          Messages:[
+              {
+                  From: {
+                      Email: "joonas.kaustel@gmail.com",
+                      Name: "Joonas"
+                  },
+                  Sender: {
+                      Email: "joonas.kaustel@gmail.com",
+                      Name: "Joonas"
+                  },
+                  To: [
+                      {
+                          Email: email,
+                      }
+                  ],
+                  Subject: 'Price alert',
+                  TextPart: `Product ${link} price is changed and costs ${currentPrice}€ instead of ${lastPrice}€`,
+                  HTMLPart: `<strong>Product ${link} price is changed and costs ${currentPrice}€ instead of ${lastPrice}€</strong>`,
+                  CustomID: "AppGettingStartedTest"
+              }
+          ]
+      })
+    request
+      .then((result) => {
+          console.log('email 1', result.body)
+      })
+      .catch((err) => {
+          console.log('err ', err)
+          console.log('email2 ', err.statusCode)
+      })
 };
 
-export default async function handler(
+async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>
 ) {
@@ -78,3 +100,5 @@ export default async function handler(
 
     res.status(200).json(products as any);
 }
+
+export default withSentry(handler);

@@ -1,5 +1,5 @@
-import { ActionIcon, Container, createStyles, Group } from '@mantine/core';
-import { IconBrandGithub } from '@tabler/icons';
+import {ActionIcon, Container, createStyles, Group} from '@mantine/core';
+import {IconBrandGithub} from '@tabler/icons';
 
 const useStyles = createStyles((theme) => ({
     footer: {
@@ -67,6 +67,7 @@ export default function Footer() {
                         <a
                             target={'_blank'}
                             href="https://github.com/joonaskaustel"
+                            rel="noreferrer"
                         >
                             <IconBrandGithub size={18} stroke={1.5} />
                         </a>
