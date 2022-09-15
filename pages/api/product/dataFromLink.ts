@@ -1,6 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import * as cheerio from 'cheerio';
 import {SiteEnums} from "../../../enums/siteEnums";
+import chromium from 'chrome-aws-lambda';
 import puppeteer from 'puppeteer';
 
 type Data = {
@@ -27,7 +28,14 @@ export default async function handler(
     if (!(siteHost as string in SiteEnums)) throw new Error(`SiteHost is invalid ${siteHost}`);
 
     console.log('before browser')
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch(
+      process.env.NODE_ENV === 'production'
+      ? {
+          args: chromium.args,
+          executablePath: await chromium.executablePath,
+          headless: chromium.headless,
+      }
+      : {});
     console.log({browser})
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0')
