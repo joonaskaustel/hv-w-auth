@@ -1,14 +1,7 @@
-import {
-    Box,
-    Button,
-    Group,
-    TextInput,
-    TextInputProps,
-    useMantineTheme,
-} from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { useSession } from 'next-auth/react';
-import { useSWRConfig } from 'swr';
+import {Box, Button, Group, TextInput, TextInputProps, useMantineTheme,} from '@mantine/core';
+import {useForm} from '@mantine/form';
+import {useSession} from 'next-auth/react';
+import {useSWRConfig} from 'swr';
 
 const addProductData = async (productData: any, userId: number) => {
     const stringified = JSON.stringify({
@@ -35,8 +28,8 @@ const addProductData = async (productData: any, userId: number) => {
     return data;
 };
 
-const getProductData = async (url: string, productUrl: string) => {
-    const res = await fetch(`${url}?url=${productUrl}`);
+const getProductData = async (url: string, productUrl: string, siteHost: string) => {
+    const res = await fetch(`${url}?url=${productUrl}&siteHost=${siteHost}`);
     const data = await res.json();
 
     if (res.status !== 200) {
@@ -63,9 +56,15 @@ export const AddProduct = (props: TextInputProps) => {
     const addProductEventSubmit = async (values: any) => {
         const productUrl = values.link;
 
+        // decide which site link it is
+        const siteHost = new URL(productUrl)
+          .hostname
+          .split('.')[1];
+
         const productData = await getProductData(
             `${process.env.NEXT_PUBLIC_APP_API_URL}/api/product/dataFromLink`,
-            productUrl
+            productUrl,
+            siteHost
         );
         const userId = session?.dbUserId as number;
         await addProductData(productData, userId);
