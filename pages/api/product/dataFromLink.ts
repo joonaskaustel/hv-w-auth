@@ -26,17 +26,11 @@ export default async function handler(
 
     if (!(siteHost as string in SiteEnums)) throw new Error(`SiteHost is invalid ${siteHost}`);
 
-    const options = {
-        urls: [link],
-        directory: '/path/to/save/'
-    };
-
-
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0')
     await page.goto(link as string);
-    const data = await page.evaluate(() => document.querySelector('.inner > h1').outerHTML);
+    const data = await page.evaluate(() => document.querySelector('.inner > h1')?.outerHTML);
 
     console.log(data);
 
