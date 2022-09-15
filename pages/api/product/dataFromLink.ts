@@ -50,7 +50,7 @@ export default async function handler(
         //     url: link,
         //     name,
         // };
-        res.status(200).json('test');
+        res.status(200).json({ name: 'test'});
     } catch (e) {
         res.status(400);
     }
