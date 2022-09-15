@@ -2,7 +2,7 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 import * as cheerio from 'cheerio';
 import {SiteEnums} from "../../../enums/siteEnums";
 import chromium from 'chrome-aws-lambda';
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 
 type Data = {
     name: string;
